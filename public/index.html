@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta title="the world computer" />
+
 <style>
     html {
         height: 100%;
@@ -10,13 +14,73 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
+
+    .ztk {
+        position: absolute;
+        top: 5%;
+        left: 64%;
+    }
+
+    .ztk_item {
+        position: absolute;
+        font-family: 'Courier New', sans-serif;
+        font-size: 0.8em;
+        color: rgba(0, 138, 23, 0.651);
+        text-align: left;
+        word-wrap: initial;
+        word-break: keep-all;
+    }
+
+    .ztk_codec {
+        opacity: 1;
+    }
+
+    .ztk_codep {
+        opacity: 0;
+    }
+
+    .ztk_codel {
+        display: none;
+    }
 </style>
+
 <html>
+    <body>
+        <div class="ztk">
+            <div id="ztk_codec" class="ztk_item ztk_codec"></div>
+            <div class="ztk_item ztk_codep"></div>
+            <div class="ztk_item ztk_codel"></div>
+        </div>
+        <div class="content"></div>
+    </body>
 
-<body>
-    <div class="content">
+    <script lang="js">
 
-    </div>
-</body>
+        const randomTimer = Math.floor(Math.random() * (9000 - 7000 + 1) + 7000);
+                // Random number generator function
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
 
+        // Function to generate hexadecimal timestamp
+        function generateHexTimestamp() {
+            var timestamp = Math.floor(Date.now() / 1000).toString(16)
+            timestamp = timestamp.substring(timestamp.length-4, timestamp.length);
+            return timestamp;
+        }
+
+        // Function to update the content of div with class ztk_codec
+        function updateZtkCodelContent() {
+            const ztkCodelDiv = document.getElementById('ztk_codec');
+            const randomNumber = getRandomNumber(111111111, 2147483647);
+            const paddedNumber = randomNumber.toString().padStart(10, '0');
+            const hexTimestamp = generateHexTimestamp();
+            ztkCodelDiv.textContent = `z${paddedNumber}t${hexTimestamp}`;
+            setTimeout(updateZtkCodelContent, randomTimer);
+        }
+
+        // Set random timer between 6 and 9 seconds
+
+        updateZtkCodelContent();
+    </script>
 </html>
