@@ -8,7 +8,7 @@
         height: 100%;
     }
     body {
-        background-color: black;
+        background-color: #04010a;
         background-image: url('blmind.png');
         background-size: contain;
         background-repeat: no-repeat;
@@ -24,13 +24,6 @@
         float: left;
     }
 
-    .ztk_div::before {
-        opacity: 0.4;
-    }
-
-    .ztk_div::after {
-        opacity: 0.4;
-    }
 
     .ztk_div {
         display: flex;
@@ -38,7 +31,7 @@
         font-family: 'Courier New', sans-serif;
         font-size: 0.8em;
         color: rgba(0, 255, 42, 0.651);
-        opacity: 0.4;
+        opacity: 0.07;
         text-align: left;
         word-wrap: initial;
         word-break: keep-all;
@@ -46,8 +39,9 @@
         max-height: 15px;
     }
 
- 
-
+    .ztk_div:hover {
+        opacity: 1;
+    }
 
     .ztk_item {
         position: absolute;
@@ -60,6 +54,11 @@
     }
 
     .ztk_codec {
+        opacity: .3;
+    }
+
+    .ztk_codec {
+ 
         opacity: 1;
     }
 
