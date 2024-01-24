@@ -7,7 +7,7 @@
     html {
         height: 100%;
     }
-    body {
+    .mind {
         background-color: #04010a;
         background-image: url('blmind.png');
         background-size: contain;
@@ -78,10 +78,31 @@
     .ztk_codel {
         display: none;
     }
+    .spirit {
+        background-color: black;
+        background-image: url('blspirit.jpeg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center, top;
+    }
+    .soul {
+        background-color: black;
+        background-image: url('blsoul.jpeg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center, top;
+    }
+    .heart {
+        background-color: black;
+        background-image: url('blheart.jpeg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center, top;
+    }
 </style>
 
 <html>
-    <body>
+    <body class="mind">
         <div class="ztk">
             <div id="ztk_codec" class="ztk_item ztk_codec"></div>
             <div class="ztk_item ztk_codep"></div>
@@ -161,5 +182,24 @@
         updateContent();
         triggerAnimation();
     </script>
+<<<<<<< HEAD
     <script src="./sillyscope.js"></script>
+=======
+<body class="mind">
+    <div class="content">
+
+    </div>
+</body>
+<script>
+    function applyRandomClass() {
+        var classes = ["mind", "spirit", "soul", "heart"];
+        var randomIndex = Math.floor(Math.random() * classes.length);
+        var bodyElement = document.querySelector("body");
+        bodyElement.className = classes[randomIndex];
+    }
+
+    //applyRandomClass();
+</script>
+</script>
+>>>>>>> 3e79e41c3f84110e32281681af6ff392548bcef2
 </html>
