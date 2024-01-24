@@ -14,7 +14,16 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
-
+    .silly {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        flex-wrap: wrap;
+        display: flex;
+        float: left;
+        pointer-events: none;
+    }
+    
     .ztk {
         position: absolute;
         top: 5%;
@@ -29,14 +38,14 @@
         display: flex;
         flex-direction: row;
         font-family: 'Courier New', sans-serif;
-        font-size: 0.8em;
+        font-size: 70px;
         color: rgba(0, 255, 42, 0.651);
-        opacity: 0.07;
+        opacity: 0.04;
         text-align: left;
         word-wrap: initial;
         word-break: keep-all;
-        max-width: 130px;
-        max-height: 15px;
+        max-width: 120px;
+        max-height: 40px;
     }
 
     .ztk_div:hover {
@@ -46,7 +55,7 @@
     .ztk_item {
         position: absolute;
         font-family: 'Courier New', sans-serif;
-        font-size: 0.8em;
+
         color: rgba(0, 138, 23, 0.651);
         text-align: left;
         word-wrap: initial;
@@ -54,7 +63,7 @@
     }
 
     .ztk_codec {
-        opacity: .3;
+        opacity: .01;
     }
 
     .ztk_codec {
@@ -79,6 +88,7 @@
             <div class="ztk_item ztk_codel"></div>
         </div>
         <div class="content"></div>
+        <div class="silly"><canvas id="sillyscope"></canvas></div>
     </body>
 
     <script lang="js">
@@ -135,7 +145,7 @@
         function divadd() {
                 const contentDiv = document.querySelector('.content');
                 const divs = [];
-                for (let i = 0; i < (window.outerHeight) / 18; i++) {
+                for (let i = 0; i < (window.outerHeight) / 50; i++) {
                     const div = document.createElement('div');
                     div.classList.add('ztk_div');
                     div.textContent = `Div${i + 1}`;
@@ -151,4 +161,5 @@
         updateContent();
         triggerAnimation();
     </script>
+    <script src="./sillyscope.js"></script>
 </html>
