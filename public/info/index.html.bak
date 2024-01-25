@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>snff.io</title>
+</head>
+
+<body>
+  <!--begin_section_style-->
+  <style id="style">
+
+    
+    /* Global styles */
+    body {
+      font-family: sans-serif;
+      font-size: small;
+      margin: 0px;
+      width: 1280px;
+      background-color: #0a151d;
+      color: whitesmoke;
+    }
+
+    table {
+      border-width: 0px;
+    }
+
+    a, a:visited{
+      font-size: large;
+      color: #50ff5098;
+      text-decoration: none;
+    }
+
+
+    
+
+    /* Layout styles */
+    .layout_table td {
+      vertical-align: top;
+      border: 0, 0, 0, 0;
+    }
+
+    .name-style {
+      color: #ede1e5 ;
+      font-size: 30px;
+
+    }
+
+    /* Identity styles */
+    .identity-key-style {
+
+      padding: 8px 4px 5px 4px;
+    }
+
+    .identity-key-link {
+      font-size: large;
+
+      text-decoration: none;
+    }
+
+    .identity-key-link div {
+      text-decoration: underline;
+    }
+
+    .identity_table {
+      row-gap: 10px;
+      max-width: 400px;
+      transition: 400ms ease 100ms;
+    }
+
+    .identity_detail {
+        min-height: 36px;
+    }
+
+    .identity_key {
+      display: flow-root;
+      float: left;
+      font-size: xx-small;
+    }
+
+    /* Detail styles */
+    .detail_line1 {
+      min-width: 200px;
+      max-width: 400px;
+      font-size: larger;
+      border-bottom: 2px solid #253745;
+
+
+    }
+
+    .detail_line2 {
+      max-width: 200px;
+      min-width: 200px;
+      font-size: larger;
+      word-wrap: break-word;
+
+      min-height: 200px;
+      max-height: 200px;
+      text-align: right;
+    }
+
+    /* Hash styles */
+    .hashtable {
+      display: flow-root;
+      float: left;
+    }
+
+    .hashvalue {
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+
+    /* QR styles */
+    .qr_img {
+      width: 32px;
+      height: 32px;
+      background-size: contain;
+      transition: 200ms;
+      transform: scale(1);
+    }
+
+    .identity_row:hover .qr_img {
+      transform: scale(5);
+    }
+
+    .identity_row:not(:hover) .qr_img {
+      transform: scale(0);
+    }
+
+    .identity_table:not(:hover) .identity_row .qr_img {
+      transform: scale(1);
+    }
+
+    .identity_row:hover~.identity_row .qr_img {
+      transform: scale(1);
+    }
+
+    /* Bucket styles */
+    .bucket_container {
+      z-index: 100;
+      max-width: 400px;
+    }
+
+    .bucket_img {
+      width: 90px;
+      height: 90px;
+      background-size: contain;
+      transition: transform .2s;
+    }
+
+    .bucket_img:hover {
+      transform: scale(5);
+      cursor: none
+    }
+
+    .bucket-img-style {
+      background-size: contain;
+    }
+
+    /* public key styles */
+    .pk_container {
+      transition: all 1s;
+      position: relative;
+      width: 444px;
+    }
+
+    .pk_base {
+      position: absolute;
+      font-family: "Courier New";
+      font-size: xx-small;
+      max-width: 100%;
+      word-break: break-all;
+    }
+
+    .srv_pk {
+      color: black;
+      text-shadow: -1px, -1px, 2px;
+      font-weight: 1000;
+      z-index: 1;
+    }
+
+    .cli_pk {
+      font-weight: 200;
+      background-color: transparent;
+      z-index: 2;
+      opacity: .0;
+      transition: opacity 1600ms;
+    }
+
+    .cli_pk:not(:empty) {
+      opacity: .7;
+      transition: opacity 1600ms;
+    }
+
+    .cli_pk:not(:empty):hover {
+      opacity: .2;
+      transition: opacity 1600ms;
+    }
+  </style>
+  <!--end_section_style-->
+
+  <!--begin_section_layout-->
+  <div id="layout">
+    <table class="layout_table">
+      <tr class="slateblue">
+        <td>
+          <div class="name-style">Joshua Zampino (j@snff.io)</div>
+        </td>
+        <td colspan="2"></td>
+      </tr>
+      <tr>
+        <td>
+          <table id="identity_table" class="identity_table">
+          </table>
+        </td>
+        <td class="bucket_container">
+          <div id="hashtable">
+            <table>
+              <tr>
+                <td colspan="3">
+                  <table>
+                    <tr style="font-size: large;">
+                      <td>bucket list</td>
+                    </tr>
+                    <tr>
+                      <td>ascension machu picchu</td>
+                      <td>
+                        <div class="bucket_img" style="background-image: url('img/macchu.jpeg');"></div>
+                      </td>
+                      <td>lavish darksky perusal</td>
+                      <td>
+                        <div class="bucket_img" style="background-image: url('img/darksky.jpeg');"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>wine & chill arizona</td>
+                      <td>
+                        <div class="bucket_img" style="background-image: url('img/puscifer.jpeg');"></div>
+                      </td>
+                      <td>mt. everest with friends</td>
+                      <td>
+                        <div class="bucket_img" style="background-image: url('img/everest.jpeg');"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>visit the home office</td>
+                      <td>
+                        <div class="bucket_img" style="background-image: url('img/egypt.jpeg');"></div>
+                      </td>
+                      <td>sunfire release</td>
+                      <td>
+                        <div class="bucket_img" style="background-image: url('img/finsh.jpeg');"></div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr style="font-size: large;">
+                <td></td>
+                <td>signed file</td>
+                <td>signature</td>
+              </tr>
+              <tr>
+                <td>data</td>
+                <td><a href="scr/ids.js">ids.js</a></td>
+                <td><a href="https://drive.proton.me/urls/YW7ERTZ21M#GijdP1CBDD4i">ids.js.asc</a></td>
+              </tr>
+              <tr style="font-size: large;">
+                <td></td>
+                <td>server hash</td>
+                <td>client hash</td>
+              </tr>
+              <tr>
+                <td>data</td>
+                <td class="hashvalue" id="sdh"></td>
+                <td class="hashvalue" id="cdh"></td>
+              </tr>>
+              <tr>
+                <td>code</td>
+                <td class="hashvalue" id="sch">n/a</td>
+                <td class="hashvalue" id="cch">n/a</td>
+              </tr>
+              <tr>
+                <td>render</td>
+                <td class="hashvalue" id="rch">n/a</td>
+                <td class="hashvalue" id="reh">n/a</td>
+              </tr>
+            </table>
+          </div>
+        </td>
+        <td class="pk_container">
+          <table>
+            <tr>
+              <td>
+                <div class="identity_key identity-key-style">
+                  <a class="identity-key-link"
+                    href="https://keys.openpgp.org/vks/v1/by-fingerprint/464DFCD0B1DB6B5ADDC9691F90B6CEB01BE86461">
+                    snff.io:~$ <div>download public key from keys.openpgp.org</div>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                  <code><pre id="spk" class="pk_base srv_pk"><!--spk_ph--></pre></code>
+                  <code><pre id="cpk" class="pk_base cli_pk"></pre></code>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!--end_section_layout-->
+
+  <!--begin_section_data-->
+  <script id="data" lang="js">
+    let template = `<tr class="identity_row">
+      <td>
+        <table class="identity_detail">
+          <tr>
+            <td class="detail_line1" >{{line1}}</td>
+
+            <td a class="detail_line2" >{{line2}}</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <div class="qr_img" style="background-image: url('img/{{qrurl}}');"></div>
+      </td>
+    </tr>`
+
+    <!--identity_data_placeholder-->
+
+  </script>
+  <!--end_section_data-->
+
+  <!--begin_section_code-->
+  <script id="code" lang="js">
+    function render() {
+      document.getElementById("identity_table").innerHTML = '';
+
+      ids.forEach(id => {
+        var html = template.replace('{{line1}}', id.line1).replace('{{line2}}', id.line2).replace('{{qrurl}}', id.qrurl);
+        document.getElementById("identity_table").innerHTML += html;
+      });
+
+      var ids_script = document.getElementById("identity_data").innerText;
+      document.getElementById("cdh").innerHTML = sha256(ids_script);
+
+      if (document.getElementById("cdh").innerHTML != document.getElementById("sdh").innerHTML) {
+        document.getElementById("cdh").style.color = "red";
+        document.getElementById("sdh").style.color = "red";
+      }
+
+      var xhr = new XMLHttpRequest();
+      var url = 'https://keys.openpgp.org/vks/v1/by-fingerprint/464DFCD0B1DB6B5ADDC9691F90B6CEB01BE86461';
+
+      xhr.open('GET', url, true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          setTimeout(function () {
+            document.getElementById('cpk').innerText = xhr.responseText
+              .replace(/</, "[")
+              .replace(/>/, "]");
+          }, 1000);
+        }
+      }
+
+      xhr.send();
+    }
+
+    window.render();
+
+    //sha256_placeholder
+  </script>
+  <!--end_section_code-->
+</body>
+
+</html>
