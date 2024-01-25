@@ -1,45 +1,53 @@
-// Get the canvas element
-const canvas = document.getElementById("sillyscope");
-const ctx = canvas.getContext("2d");
 
-// Set the canvas size
-canvas.width = 300;
-canvas.height = 300;
+audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-// Configure the oscilloscope
-const frequency = 600; // Frequency in Hz
-const amplitude = 20; // Amplitude of the signal
-const period = 2 * Math.PI * frequency; // Period of the signal
-var frame = 0;
-// Animation loop
-function animate() {
-    continueAnimation = true;
-    // Clear the canvas
-    if (frame > canvas.width) {
-        continueAnimation = false;
-        //            frame = 0;
-  //          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //
+function draw(analyser) {
+
+    requestAnimationFrame(()=>{draw(analyser)});
+    analyser.getByteTimeDomainData(analyser.dataArray);
+
+    canvas = document.getElementById('sillyscope');
+    cc = canvas.getContext('2d');
+
+    WIDTH = canvas.width;
+    HEIGHT = canvas.height;
+
+    cc.fillStyle = 'rgb(100 100 100)';
+    cc.fillRect(0, 0, WIDTH, HEIGHT);
+    cc.lineWidth = 2;
+    cc.strokeStyle = 'rgb(45,118, 147)';
+    cc.beginPath();
+
+    var dataArrayLength = analyser.dataArray.length;
+    var sliceWidth = (WIDTH * 1.0) / dataArrayLength;
+    
+    var x = 0;
+    for (var i = 0; i < dataArrayLength; i++) {
+        var v = analyser.dataArray[i] / 128.0;
+        var y = (v * HEIGHT) / 2;
+        if (i === 0) {
+            cc.moveTo(x, y);
+        } else {
+            cc.lineTo(x, y);
+        }
+        x += sliceWidth;
     }
-    // Draw the oscilloscope waveform
-    ctx.beginPath();
-    ctx.moveTo(0, canvas.height);
+    cc.lineTo(WIDTH, HEIGHT / 2);
+    cc.stroke();
 
-    //y = Math.tan(frame * Math.PI)
-    //const y = canvas.height / 2 + amplitude * Math.sin(frame * period );
     
-    ctx.lineTo(frame, frame+1);
-    frame++;
-
-    ctx.strokeStyle = "blue";
-    
-    ctx.lineWidth = .1;
-    ctx.stroke();
-
-    // Request the next animation frame
-    if (continueAnimation)
-        requestAnimationFrame(animate);
 }
 
-// Start the animation
-animate();
+osc = audioContext.createOscillator();
+osc.frequency.value = 440; // Set the frequency to 440 Hz (A4)
+osc.type = 'sine'; // Set the waveform type to sine
+
+ana = audioContext.createAnalyser();
+bufferSize = ana.frequencyBinCount;
+ana.dataArray = new Uint8Array(bufferSize);
+
+osc.connect(ana);
+
+osc.start();
+
+draw(ana);
