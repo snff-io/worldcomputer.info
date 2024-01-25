@@ -1,11 +1,8 @@
-
 audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
+var frame = 0;
 function draw() {
-
-    requestAnimationFrame(draw);
-    ana.dataArray = new Uint8Array(analyser.frequencyBinCount);
-    ana.getByteTimeDomainData(analyser.dataArray);
+    ana.signalArray = new Uint8Array(ana.frequencyBinCount);
+    ana.getByteTimeDomainData(ana.signalArray);
 
     canvas = document.getElementById('sillyscope');
     cc = canvas.getContext('2d');
@@ -13,34 +10,39 @@ function draw() {
     WIDTH = canvas.width;
     HEIGHT = canvas.height;
 
-    cc.fillStyle = 'rgb(100 100 100)';
-    cc.fillRect(0, 0, WIDTH, HEIGHT);
-    cc.lineWidth = 2;
-    cc.strokeStyle = 'rgb(45,118, 147)';
-    cc.beginPath();
-
-    var dataArrayLength = ana.dataArray.length;
-    var sliceWidth = (WIDTH * 1.0) / dataArrayLength;
-    
-    var x = 0;
-    for (var i = 0; i < dataArrayLength; i++) {
-        var v = ana.dataArray[i] / 128.0;
-        var y = (v * HEIGHT) / 2;
-        if (i === 0) {
-            cc.moveTo(x, y);
-        } else {
-            cc.lineTo(x, y);
-        }
-        x += sliceWidth;
+    with (cc) {
+        lineWidth = 2;
+        fillStyle = 'rgb(100, 100, 100)';
+        strokeStyle = 'rgb(45, 118, 147)';
+        fillRect(0, 0, WIDTH, HEIGHT);
     }
-    cc.lineTo(WIDTH, HEIGHT / 2);
-    cc.stroke();
 
-    
+    var signalLen = ana.signalArray.length;
+    var sliceWidth = (WIDTH * 1.0) / signalLen;
+
+    var x = frame * sliceWidth;
+    if (x > WIDTH) {
+        x = frame = 0;
+    }
+
+    var y = (HEIGHT / 2) + (osc.frequency.value * Math.cos(2 * Math.PI * x));
+
+    if (frame === 0) cc.lineTo(x, y);
+    else cc.moveTo(x, y);
+
+    with (cc) {
+        //endpath();
+        stroke();
+    }
+
+    frame++;
+
+    requestAnimationFrame(draw);
 }
 
 const osc = audioContext.createOscillator();
 osc.frequency.value = 600; // Set the frequency to 440 Hz (A4)
+osc.amplitude = 0.5;
 osc.type = 'sine'; // Set the waveform type to sine
 
 const ana = audioContext.createAnalyser();
@@ -50,4 +52,5 @@ ana.dataArray = new Uint8Array(bufferSize);
 osc.connect(ana);
 
 osc.start();
+
 draw();
