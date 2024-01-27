@@ -17,6 +17,7 @@ document.addEventListener('click', function () {
     
         oscillator.type = 'sine';
         oscillator.frequency.value = i; // default frequency
+        
         gainNode.gain.value = 1; // default amplitude
 
         oscillators.push(oscillator);

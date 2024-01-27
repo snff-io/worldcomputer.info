@@ -33,15 +33,16 @@
 
     .sillycnt {
         position: absolute;
-        bottom: 15%;
+        top: 30%;
         right: 5%;
-        float: left;
+        float: right;
         min-width: 300px;
         min-height: 50px;
         z-index: 10000;
     }
     
     .contact {
+        font-family: 'Courier New', sans-serif;
         position: absolute;
         bottom: 5%;
         right: 5%;
@@ -136,13 +137,7 @@
             <div class="ztk_item ztk_codel"></div>
         </div>
         <div class="content"></div>
-            <div class="silly"><canvas id="sillyscope"></canvas></div> 
-        <div class="sillycnt" style="display: none;background-color:bisque"> 
-            
-            <input type="number" id="sillyslider" min="0" max="3" value="1"></input>
-            <input type="number" id="sillylateramp" min="1" max="2" value="1.5"></input>
-            <input type="number" id="sillylaterfreq" min="1" max="20000" value="1"></input>
-        </div>
+   
         <div class="contact"><a href="contact/index.html">contact</a></div>
     </body>
 
@@ -215,10 +210,5 @@
 
         updateContent();
         triggerAnimation();
-    </script>
-    <script src="./sillyscope.js">
-    </script>
-    <script lang="js">
-
     </script>
 </html>
