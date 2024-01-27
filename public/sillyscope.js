@@ -1,56 +1,96 @@
-audioContext = new (window.AudioContext || window.webkitAudioContext)();
-var frame = 0;
-function draw() {
-    ana.signalArray = new Uint8Array(ana.frequencyBinCount);
-    ana.getByteTimeDomainData(ana.signalArray);
+// Create audio context
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+var ran = false;
 
-    canvas = document.getElementById('sillyscope');
-    cc = canvas.getContext('2d');
+// Create Oscillators
+var oscillators = [];
+var gainNodes = [];
 
-    WIDTH = canvas.width;
-    HEIGHT = canvas.height;
+document.addEventListener('click', function () {
+    if (ran) return;
+    for (var i = 0; i < 4; i++) {
+        var oscillator = audioCtx.createOscillator();
+        var gainNode = audioCtx.createGain();
+    
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+    
+        oscillator.type = 'sine';
+        oscillator.frequency.value = i; // default frequency
+        gainNode.gain.value = 1; // default amplitude
 
-    with (cc) {
-        lineWidth = 2;
-        fillStyle = 'rgb(100, 100, 100)';
-        strokeStyle = 'rgb(45, 118, 147)';
-        fillRect(0, 0, WIDTH, HEIGHT);
+        oscillators.push(oscillator);
+        gainNodes.push(gainNode);
     }
+    ran = true;
+});
 
-    var signalLen = ana.signalArray.length;
-    var sliceWidth = (WIDTH * 1.0) / signalLen;
+// Canvas setup
+var canvas = document.getElementById('sillyscope');
+var ctx = canvas.getContext('2d');
+var canvasWidth = canvas.width;
+var canvasHeight = canvas.height;
 
-    var x = frame * sliceWidth;
-    if (x > WIDTH) {
-        x = frame = 0;
+
+// Animation
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    //ctx.fillStyle = 'rgba(111, 111, 111, 111)';
+    //ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // Draw each oscillator
+    for (var i = 0; i < oscillators.length; i++) {
+        var oscillator = oscillators[i];
+        var gain = gainNodes[i].gain.value;
+
+        ctx.beginPath();
+        for (var x = 0; x < canvasWidth; x++) {
+            var y = gain * 50 * Math.sin((2 * Math.PI) * (x / canvasWidth) * oscillator.frequency.value + audioCtx.currentTime) + canvasHeight / 2;
+            ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = 'rgba(106, 90, 205, 255)';
+        ctx.stroke();
     }
+}
+animate();
 
-    var y = (HEIGHT / 2) + (osc.frequency.value * Math.cos(2 * Math.PI * x));
-
-    if (frame === 0) cc.lineTo(x, y);
-    else cc.moveTo(x, y);
-
-    with (cc) {
-        //endpath();
-        stroke();
-    }
-
-    frame++;
-
-    requestAnimationFrame(draw);
+// Function to update oscillator
+function updateOscillator(index, frequency, amplitude) {
+    oscillators[index].frequency.value = frequency;
+    gainNodes[index].gain.value = amplitude;
 }
 
-const osc = audioContext.createOscillator();
-osc.frequency.value = 600; // Set the frequency to 440 Hz (A4)
-osc.amplitude = 0.5;
-osc.type = 'sine'; // Set the waveform type to sine
+// Handle sillyslider change event
+var sillySlider = document.getElementById('sillyslider');
+sillySlider.addEventListener('change', function (event) {
+    var index = parseInt(event.target.value);
+    if (index >= 0 && index < oscillators.length) {
+        // Call updateOscillator with index, freq, and amp values
+        updateOscillator(index, oscillators[index].frequency.value, gainNodes[index].gain.value);
+    }
+});
 
-const ana = audioContext.createAnalyser();
-bufferSize = ana.frequencyBinCount;
-ana.dataArray = new Uint8Array(bufferSize);
+// Handle sillylateramp change event
+var sillyLaterAmp = document.getElementById('sillylateramp');
+sillyLaterAmp.addEventListener('change', function (event) {
+    var index = parseInt(sillySlider.value);
+    var amplitude = parseFloat(event.target.value);
+    if (index >= 0 && index < oscillators.length) {
+        // Call updateOscillator with index, freq, and amp values
+        updateOscillator(index, oscillators[index].frequency.value, amplitude);
+    }
+});
 
-osc.connect(ana);
-
-osc.start();
-
-draw();
+// Handle sillylateramp change event
+var sillyLaterFreq = document.getElementById('sillylaterfreq');
+sillyLaterFreq.addEventListener('change', function (event) {
+    var index = parseInt(sillySlider.value);
+    var frequency = parseFloat(event.target.value);
+    if (index >= 0 && index < oscillators.length) {
+        // Call updateOscillator with index, freq, and amp values
+        updateOscillator(index, frequency, gainNodes[index].gain.value);
+    }
+});

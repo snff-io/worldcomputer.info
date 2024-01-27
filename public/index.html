@@ -14,6 +14,7 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
+
     .silly {
         position: absolute;
         top: 5%;
@@ -21,6 +22,23 @@
         flex-wrap: wrap;
         display: flex;
         float: left;
+    }
+
+    slider{
+        width: 100px;
+        height: 10px;
+        background: #d3d3d3;
+        outline: none;
+    }
+
+    .sillycnt {
+        position: absolute;
+        bottom: 15%;
+        right: 5%;
+        float: left;
+        min-width: 300px;
+        min-height: 50px;
+        z-index: 10000;
     }
     
     .contact {
@@ -32,7 +50,6 @@
         float: right;
         color:slateblue
     }
-
 
     .ztk {
         position: absolute;
@@ -119,7 +136,13 @@
             <div class="ztk_item ztk_codel"></div>
         </div>
         <div class="content"></div>
-        <div class="silly"><canvas id="sillyscope"></canvas></div>
+            <div class="silly"><canvas id="sillyscope"></canvas></div> 
+        <div class="sillycnt" style="display: none;background-color:bisque"> 
+            
+            <input type="number" id="sillyslider" min="0" max="3" value="1"></input>
+            <input type="number" id="sillylateramp" min="1" max="2" value="1.5"></input>
+            <input type="number" id="sillylaterfreq" min="1" max="20000" value="1"></input>
+        </div>
         <div class="contact"><a href="contact/index.html">contact</a></div>
     </body>
 
@@ -170,7 +193,7 @@
             var randomDiv = ztkDivs[randomIndex];
             update_div(randomDiv);
             //randomDiv.animationPlayState = 'running' ? 'paused' : 'running';
-            setTimeout(triggerAnimation, randomTimer);
+            //setTimeout(triggerAnimation, randomTimer);
         }
 
         // Function to add divs to the content area
@@ -193,5 +216,9 @@
         updateContent();
         triggerAnimation();
     </script>
-    <script src="./sillyscope.js"></script>
+    <script src="./sillyscope.js">
+    </script>
+    <script lang="js">
+
+    </script>
 </html>
