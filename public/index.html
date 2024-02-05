@@ -14,6 +14,7 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
+
     .silly {
         position: absolute;
         top: 5%;
@@ -22,8 +23,26 @@
         display: flex;
         float: left;
     }
+
+    slider{
+        width: 100px;
+        height: 10px;
+        background: #d3d3d3;
+        outline: none;
+    }
+
+    .sillycnt {
+        position: absolute;
+        top: 30%;
+        right: 5%;
+        float: right;
+        min-width: 300px;
+        min-height: 50px;
+        z-index: 10000;
+    }
     
     .contact {
+        font-family: 'Courier New', sans-serif;
         position: absolute;
         bottom: 5%;
         right: 5%;
@@ -33,6 +52,16 @@
         color:slateblue
     }
 
+        .telnet {
+        font-family: 'Courier New', sans-serif;
+        position: absolute;
+        bottom: 5%;
+        left: 5%;
+        flex-wrap: wrap;
+        display: flex;
+        float: left;
+        color:slateblue
+    }
 
     .ztk {
         position: absolute;
@@ -115,12 +144,42 @@
     <body class="mind">
         <div class="ztk">
             <div id="ztk_codec" class="ztk_item ztk_codec"></div>
-            <div class="ztk_item ztk_codep"></div>
+            <div class=e"ztk_item ztk_codep"></div>
             <div class="ztk_item ztk_codel"></div>
         </div>
         <div class="content"></div>
-        <div class="silly"><canvas id="sillyscope"></canvas></div>
-        <div class="contact"><a href="contact/index.html">contact</a></div>
+        <div class="telnet">
+            <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet</a>
+        </div>
+        <div class="contact">
+            <a href="contact/index.html">contact</a>
+        </div>
+
+        <script lang="js">
+            function copyToClipboard(event) {
+                event.preventDefault();
+                
+                const telnetLink = event.target.href;
+                navigator.clipboard.writeText("telnet bbs.worldcomputer.info");
+                const notice = document.createElement('div');
+                notice.textContent = 'bbs host copied to clipboard';
+                notice.style.position = 'fixed';
+                notice.style.top = `${event.clientY}px`;
+                notice.style.left = `${event.clientX}px`;
+                notice.style.opacity = '1';
+                notice.style.transition = 'opacity 1.5s';
+                notice.style.color = "lime"
+                notice.style.fontFamily = 'Courier New';
+                document.body.appendChild(notice);
+                
+                setTimeout(() => {
+                    notice.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(notice);
+                    }, 1500);
+                }, 1500);
+            }
+        </script>
     </body>
 
     <script lang="js">
@@ -170,7 +229,7 @@
             var randomDiv = ztkDivs[randomIndex];
             update_div(randomDiv);
             //randomDiv.animationPlayState = 'running' ? 'paused' : 'running';
-            setTimeout(triggerAnimation, randomTimer);
+            //setTimeout(triggerAnimation, randomTimer);
         }
 
         // Function to add divs to the content area
@@ -193,5 +252,4 @@
         updateContent();
         triggerAnimation();
     </script>
-    <script src="./sillyscope.js"></script>
 </html>
