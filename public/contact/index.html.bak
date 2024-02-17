@@ -255,11 +255,11 @@
                     <tr>
                       <td>vegas in style</td>
                       <td>
-                        <div class="bucket_img" style="background-image: url('img/madeit.png');"></div>
+                        <div class="bucket_img" style="background-image: url('img/madeit.jpeg');"></div>
                       </td>
                       <td>retirement plan</td>
                       <td>
-                        <div class="bucket_img" style="background-image: url('img/retirement.png');"></div>
+                        <div class="bucket_img" style="background-image: url('img/retirement.jpeg');"></div>
                       </td>
                     </tr>
                   </table>
