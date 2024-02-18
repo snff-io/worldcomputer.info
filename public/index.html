@@ -67,21 +67,11 @@
         flex-wrap: wrap;
         display: flex;
         float: right;
-        color:slateblue
+        color:slateblue;
     }
 
-    .contact {
-        font-family: 'Courier New', sans-serif;
-        position: absolute;
-        bottom: 5%;
-        right: 50%;
-        flex-wrap: wrap;
-        display: flex;
-        float: right;
-        color:slateblue
-    }
 
-        .telnet {
+    .telnet {
         font-family: 'Courier New', sans-serif;
         position: absolute;
         bottom: 5%;
@@ -173,13 +163,14 @@
     <body class="mind">
         <div class="ztk">
             <div id="ztk_codec" class="ztk_item ztk_codec"></div>
-            <div class=e"ztk_item ztk_codep"></div>
+            <div class="ztk_item ztk_codep"></div>
             <div class="ztk_item ztk_codel"></div>
         </div>
         <div class="contact">
+            <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet/</a>
+            <a href="contact/index.html">contact/</a>
             <a href="sunfire/index.html">sunfire</a>
-            <a href="contact/index.html">contact</a>
-            <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet</a>
+            
         </div>
 
         <script lang="js">
