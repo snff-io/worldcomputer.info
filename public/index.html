@@ -7,6 +7,7 @@
     html {
         height: 100%;
     }
+
     .mind {
         background-color: #04010a;
         background-image: url('blmind.png');
@@ -25,7 +26,7 @@
         float: left;
     }
 
-    slider{
+    slider {
         width: 100px;
         height: 10px;
         background: #d3d3d3;
@@ -42,7 +43,7 @@
         z-index: 10000;
     }
 
-    slider{
+    slider {
         width: 100px;
         height: 10px;
         background: #d3d3d3;
@@ -58,7 +59,7 @@
         min-height: 50px;
         z-index: 10000;
     }
-    
+
     .contact {
         font-family: 'Courier New', sans-serif;
         position: absolute;
@@ -67,7 +68,7 @@
         flex-wrap: wrap;
         display: flex;
         float: right;
-        color:slateblue;
+        color: slateblue;
     }
 
 
@@ -79,7 +80,7 @@
         flex-wrap: wrap;
         display: flex;
         float: left;
-        color:slateblue
+        color: slateblue
     }
 
     .ztk {
@@ -125,7 +126,7 @@
     }
 
     .ztk_codec {
- 
+
         opacity: 1;
     }
 
@@ -136,6 +137,7 @@
     .ztk_codel {
         display: none;
     }
+
     .spirit {
         background-color: black;
         background-image: url('blspirit.jpeg');
@@ -143,6 +145,7 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
+
     .soul {
         background-color: black;
         background-image: url('blsoul.jpeg');
@@ -150,6 +153,7 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
+
     .heart {
         background-color: black;
         background-image: url('blheart.jpeg');
@@ -157,117 +161,235 @@
         background-repeat: no-repeat;
         background-position: center, top;
     }
+
+    .gallery {
+        position: absolute;
+        height: 800px;
+        width: 800px;
+        max-width: 800px;
+        max-height: 800px;
+        min-width: 800px;
+        min-height: 800px;
+        background-image: url("gallery/_0431b5dd-a595-42fe-a126-1e6a226059b1.jpeg");
+        /* Default image */
+        background-size: cover;
+        display: none;
+        /* Hide the gallery by default */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .gallery_left {
+        z-index: 1000;
+        position: absolute;
+        top: 50%;
+        left: -20%;
+        color: limegreen;
+        font-size: xx-large;
+        text-shadow: #04010a;
+    }
+
+    .gallery_right {
+        z-index: 1000;
+        position: absolute;
+        top: 50%;
+        right: -20%;
+        color: limegreen;
+        font-size: xx-large;
+        text-shadow: #04010a;
+
+    }
+
+    .gallery_left:hover {
+        background: limegreen;
+        color: black;
+    }
+
+    .gallery_right:hover {
+        background: limegreen;
+        color: black;
+    }
 </style>
 
 <html>
-    <body class="mind">
-        <div class="ztk">
-            <div id="ztk_codec" class="ztk_item ztk_codec"></div>
-            <div class="ztk_item ztk_codep"></div>
-            <div class="ztk_item ztk_codel"></div>
-        </div>
-        <div class="contact">
-            <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet/</a>
-            <a href="contact/index.html">contact/</a>
-            <a href="sunfire/index.html">sunfire</a>
-            
-        </div>
 
-        <script lang="js">
-            function copyToClipboard(event) {
-                event.preventDefault();
-                
-                const telnetLink = event.target.href;
-                navigator.clipboard.writeText("telnet bbs.worldcomputer.info");
-                const notice = document.createElement('div');
-                notice.textContent = 'bbs host copied to clipboard';
-                notice.style.position = 'fixed';
-                notice.style.top = `${event.clientY}px`;
-                notice.style.left = `${event.clientX}px`;
-                notice.style.opacity = '1';
-                notice.style.transition = 'opacity 1.5s';
-                notice.style.color = "lime"
-                notice.style.fontFamily = 'Courier New';
-                document.body.appendChild(notice);
-                
-                setTimeout(() => {
-                    notice.style.opacity = '0';
-                    setTimeout(() => {
-                        document.body.removeChild(notice);
-                    }, 1500);
-                }, 1500);
-            }
-        </script>
-    </body>
+<body class="mind">
+    <div class="gallery">
+        <code class="gallery_right" onclick="cycleGallery('next')">this way</code>
+        <code class="gallery_left" onclick="cycleGallery('prev')">this way</code>
+    </div>
+    <div class="ztk">
+        <div id="ztk_codec" class="ztk_item ztk_codec"></div>
+        <div class="ztk_item ztk_codep"></div>
+        <div class="ztk_item ztk_codel"></div>
+    </div>
+    <div class="contact">
+        <a href="#" onclick="toggleGallery(event)">gallery/</a>
+        <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet/</a>
+        <a href="contact/index.html">contact/</a>
+        <a href="sunfire/index.html">sunfire</a>
 
-    <script lang="js">
-            const randomTimer = Math.floor(Math.random() * (5000 - 2000 + 1) + 2000);
-            const divs = divadd();
+    </div>
 
-        // Random number generator function
-        function getRandomNumber(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
-            }
+</body>
 
-        // Function to generate hexadecimal timestamp
-        function generateHexTimestamp() {
-                var timestamp = Math.floor(Date.now() / 1000).toString(16)
-                timestamp = timestamp.substring(timestamp.length-4, timestamp.length);
-                return timestamp;
-            }
+<script lang="js">
+    function copyToClipboard(event) {
+        event.preventDefault();
 
-        // Function to update the content of div with class ztk_codec
-        function updateContent(divId='', timer=false) {
+        const telnetLink = event.target.href;
+        navigator.clipboard.writeText("telnet bbs.worldcomputer.info");
+        const notice = document.createElement('div');
+        notice.textContent = 'bbs host copied to clipboard';
+        notice.style.position = 'fixed';
+        notice.style.top = `${event.clientY}px`;
+        notice.style.left = `${event.clientX}px`;
+        notice.style.opacity = '1';
+        notice.style.transition = 'opacity 1.5s';
+        notice.style.color = "lime"
+        notice.style.fontFamily = 'Courier New';
+        document.body.appendChild(notice);
 
-                if (divId !== '') {
-                    divs.push('ztk_codec');
-                }
+        setTimeout(() => {
+            notice.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(notice);
+            }, 1500);
+        }, 1500);
+    }
+</script>
 
-                divs.forEach(div => {
+<script>
+    var currentImageIndex = 0; // Track the index of the current image
+    var imageList = [
+        "_0431b5dd-a595-42fe-a126-1e6a226059b1.jpeg",
+        "_0193acc3-c1ae-40fa-aa9e-c96f1c802cf0.jpeg",
+        "_053b3c96-8686-4bed-85d4-bdb7f4bc6f5e.jpeg",
+        "_0a045c6e-1cf5-412d-afe4-e628ab14c8f9.jpeg",
+        "_0bb51a83-8a84-4f02-aa57-c6e2ce4b8cf5.jpeg",
+        "_0cabea3b-36d7-44ec-bfe0-1ccbec8f622d.jpeg",
+        "_0cb8cd94-d156-470d-9c72-fc4f28d97415.jpeg",
+        "_130e1540-5619-4a55-a537-06da09cc74ae.jpeg",
+        "_1ac21aa7-5447-4a84-9474-6a4801b71f87.jpeg",
+        "_2e275846-7639-4637-8d42-90a2e98821b2.jpeg",
+        "_3493a588-3efe-4b91-97c2-8dc87c881504.jpeg",
+        "_3699eab2-48f4-4ee4-9632-e5b1ba6b4674.jpeg",
+        "_46101ee8-366f-4d31-b6d7-8b4b68823c0f.jpeg",
+        "_5b9e6d01-c19d-489e-8839-d19682bba61e.jpeg",
+        "_70a63889-475a-411c-a14d-d9d1345af9ae.jpeg",
+        "_748daf2d-d2d4-4151-b65e-a9b1cd1a310e.jpeg",
+        "_76a210d6-7194-488a-8cfd-55fb8773283e.jpeg",
+        "_77382724-a85d-49a4-ac02-856dfd71384b.jpeg",
+        "_7cafe970-5888-48d3-8b6e-12433637992b.jpeg",
+        "_7f2483d1-b776-42df-9044-e3a0cd3df7ac.jpeg",
+        "_7f34128b-f9c7-4381-8fea-15b2de7fe69e.jpeg",
+        "_8198c9d1-0e4a-4bfe-a500-2af06ddbbd27.jpeg",
+        "_822e7db2-6afb-4a09-b795-0f6f0bbe7ea6.jpeg",
+        "_867aae73-676f-4311-a734-50ca5fb7b2a4.jpeg",
+        "_90e3641d-1891-485f-a91c-82a9e2835ff6.jpeg",
+        "_99288d4b-c88f-4339-a756-97781fd40151.jpeg",
+        "_a58b3702-f6ec-47c5-b463-96e7ceeb8e50.jpeg",
+        "_aac26ad4-54c9-46b5-9774-235b2659384e.jpeg",
+        "_ab39670e-941d-4524-8409-373407ad9a6e.jpeg",
+        "_ada8095c-50ce-47c0-8371-d87eee2ab98c.jpeg",
+        "_af8d7362-0f21-4272-b77f-d02218290551.jpeg",
+        "_afd020cd-d8fa-44d6-913e-31f8032961e6.jpeg",
+        "_bae6c5b8-248c-4f98-9217-cebf63c13831.jpeg",
+        "_c1955a72-70c3-4ae4-b863-65668a8b7878.jpeg",
+        "_c6a48fed-f58b-4831-b3c5-756f87019f08.jpeg",
+        "_d33c2bfb-d45a-4bce-a2f0-89bd99dcf17b.jpeg",
+        "_df586d86-b187-4e7c-b82c-4bd0a27b0d80.jpeg",
+        "_e3469569-40f2-4a32-ba6d-a976a7dbf194.jpeg",
+        "_ecaa839f-68b3-48a1-a9b0-293e1ad28794.jpeg",
+        "_f3eff345-c9d7-445b-aa60-64440afa6747.jpeg",];
 
-                    update_div(div);
-
-                    if (timer)
-                        setTimeout(updateContent, randomTimer);
-                });
-            }
-
-        function update_div(div){
-                var randomNumber = getRandomNumber(111111111, 2147483647);
-                    var paddedNumber = randomNumber.toString().padStart(10, '0');
-                    var hexTimestamp = generateHexTimestamp();
-                    div.textContent = `z${paddedNumber}t${hexTimestamp}`;
-            }
-
-        // Function to trigger animation on a random ztk_div
-        function triggerAnimation() {
-
-            var ztkDivs = document.getElementsByClassName('ztk_div');
-            var randomIndex = Math.floor(Math.random() * ztkDivs.length);
-            var randomDiv = ztkDivs[randomIndex];
-            update_div(randomDiv);
-            //randomDiv.animationPlayState = 'running' ? 'paused' : 'running';
-            //setTimeout(triggerAnimation, randomTimer);
+    function cycleGallery(direction) {
+        if (direction === 'next') {
+            currentImageIndex = (currentImageIndex + 1) % imageList.length;
+        } else if (direction === 'prev') {
+            currentImageIndex = (currentImageIndex - 1 + imageList.length) % imageList.length;
         }
 
-        // Function to add divs to the content area
-        function divadd() {
-                const contentDiv = document.querySelector('.content');
-                const divs = [];
-                for (let i = 0; i < (window.outerHeight) / 50; i++) {
-                    const div = document.createElement('div');
-                    div.classList.add('ztk_div');
-                    div.textContent = `Div${i + 1}`;
-                    divs.push(div);
-                    contentDiv.appendChild(div);
+        var gallery = document.querySelector('.gallery');
+        gallery.style.backgroundImage = 'url("gallery/' + imageList[currentImageIndex] + '")';
+    }
 
-                }
-                return divs;
-            }
-            //updateContent(divId='ztk_codec', timer=true)
+    function toggleGallery() {
+        var gallery = document.querySelector('.gallery');
+        gallery.style.display = (gallery.style.display === 'none') ? 'block' : 'none';
+    }
+</script>
+
+<script lang="js">
+    const randomTimer = Math.floor(Math.random() * (5000 - 2000 + 1) + 2000);
+    const divs = divadd();
+
+    // Random number generator function
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // Function to generate hexadecimal timestamp
+    function generateHexTimestamp() {
+        var timestamp = Math.floor(Date.now() / 1000).toString(16)
+        timestamp = timestamp.substring(timestamp.length - 4, timestamp.length);
+        return timestamp;
+    }
+
+    // Function to update the content of div with class ztk_codec
+    function updateContent(divId = '', timer = false) {
+
+        if (divId !== '') {
+            divs.push('ztk_codec');
+        }
+
+        divs.forEach(div => {
+
+            update_div(div);
+
+            if (timer)
+                setTimeout(updateContent, randomTimer);
+        });
+    }
+
+    function update_div(div) {
+        var randomNumber = getRandomNumber(111111111, 2147483647);
+        var paddedNumber = randomNumber.toString().padStart(10, '0');
+        var hexTimestamp = generateHexTimestamp();
+        div.textContent = `z${paddedNumber}t${hexTimestamp}`;
+    }
+
+    // Function to trigger animation on a random ztk_div
+    function triggerAnimation() {
+
+        var ztkDivs = document.getElementsByClassName('ztk_div');
+        var randomIndex = Math.floor(Math.random() * ztkDivs.length);
+        var randomDiv = ztkDivs[randomIndex];
+        update_div(randomDiv);
+        //randomDiv.animationPlayState = 'running' ? 'paused' : 'running';
+        //setTimeout(triggerAnimation, randomTimer);
+    }
+
+    // Function to add divs to the content area
+    function divadd() {
+        const contentDiv = document.querySelector('.content');
+        const divs = [];
+        for (let i = 0; i < (window.outerHeight) / 50; i++) {
+            const div = document.createElement('div');
+            div.classList.add('ztk_div');
+            div.textContent = `Div${i + 1}`;
+            divs.push(div);
+            contentDiv.appendChild(div);
+
+        }
+        return divs;
+    }
+    //updateContent(divId='ztk_codec', timer=true)
 
 
-        updateContent();
-        triggerAnimation();
-    </script>
+    updateContent();
+    triggerAnimation();
+</script>
+
 </html>
