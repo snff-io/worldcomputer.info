@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta title="the world computer" />
 
+
 <style>
     html {
         height: 100%;
@@ -14,6 +15,40 @@
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center, top;
+    }
+
+    .img_pre_load {
+        display: block;
+        position: absolute;
+        bottom: 0%;
+        right: 0%;
+        height:     100px;
+        width:      100px;
+        max-width:  100px;
+        max-height: 100px;
+        min-width:  100px;
+        min-height: 100px;
+        background-image: url();
+        z-index: 1000;
+        background-color: transparent;
+        background-size: cover;
+
+    }
+
+    .ansi_view {
+        display: block;
+        position: absolute;
+        top: -2%;
+        left: -46%;
+        height: 200px;
+        width: 200px;
+        max-width: 200px;
+        max-height: 200px;
+        min-width: 200px;
+        min-height: 200px;
+        transform: scale(50%);
+        z-index: 1000;
+        background-color: transparent;
     }
 
 
@@ -62,7 +97,7 @@
 
     .contact {
         font-family: 'Courier New', sans-serif;
-        position: absolute;
+       
         bottom: 5%;
         right: 5%;
         flex-wrap: wrap;
@@ -164,12 +199,12 @@
 
     .gallery {
         position: absolute;
-        height: 800px;
-        width: 800px;
-        max-width: 800px;
-        max-height: 800px;
-        min-width: 800px;
-        min-height: 800px;
+        height:     768px;
+        width:      768px;
+        max-width:  768px;
+        max-height: 768px;
+        min-width:  768px;
+        min-height: 768px;
         background-image: url("gallery/_0431b5dd-a595-42fe-a126-1e6a226059b1.jpeg");
         /* Default image */
         background-size: cover;
@@ -216,24 +251,96 @@
 
 <body class="mind">
     <div class="gallery">
+        <div class="ansi_view"></div>
         <code class="gallery_right" onclick="cycleGallery('next')">this way</code>
         <code class="gallery_left" onclick="cycleGallery('prev')">this way</code>
+        <div class="img_pre_load">&nbsp;</div>
     </div>
     <div class="ztk">
         <div id="ztk_codec" class="ztk_item ztk_codec"></div>
         <div class="ztk_item ztk_codep"></div>
         <div class="ztk_item ztk_codel"></div>
     </div>
+    <footer>
     <div class="contact">
         <a href="#" onclick="toggleGallery(event)">gallery/</a>
         <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet/</a>
         <a href="contact/index.html">contact/</a>
         <a href="sunfire/index.html">sunfire</a>
-
+    </footer>
     </div>
 
 </body>
+<script lang="js">
+    function ansiToHtml(ansiString) {
+        // Regular expression to match ANSI escape codes
+        const ansiRegex = /\x1b\[48;2;(\d+);(\d+);(\d+)m\x1b\[38;2;(\d+);(\d+);(\d+)m|\x1b\[0m/g;
 
+        // Initialize HTML string
+        let htmlString = '';
+        let rowHtml = ''; // HTML for current row
+        let nestedSpanCount = 0; // Track nested span count
+
+        // Parse ANSI escape codes and generate HTML spans
+        let match;
+        while ((match = ansiRegex.exec(ansiString)) !== null) {
+            if (match[0] === '\x1b[0m') {
+                // ANSI reset found
+                if (nestedSpanCount > 0) {
+                    htmlString += `<div style="white-space: nowrap;">${rowHtml}</div>`;
+                    rowHtml = ''; // Reset row HTML
+                    nestedSpanCount = 0; // Reset nested span count
+                }
+                continue; // Skip to the next match
+            }
+
+            const r_bg = match[1];
+            const g_bg = match[2];
+            const b_bg = match[3];
+            const r_fg = match[4];
+            const g_fg = match[5];
+            const b_fg = match[6];
+
+            const text = '▄'; // Use any suitable text representation here
+
+            rowHtml += `<span style="color: rgb(${r_fg}, ${g_fg}, ${b_fg}); background-color: rgb(${r_bg}, ${g_bg}, ${b_bg});">${text}</span>`;
+            nestedSpanCount++;
+        }
+
+        // If there's any remaining content after the last ANSI reset
+        if (nestedSpanCount > 0) {
+            htmlString += `<div style="white-space: nowrap;">${rowHtml}</div>`;
+        }
+
+        return htmlString;
+    }
+
+    // function ansiToHtml(ansiString) {
+    //     // Regular expression to match ANSI escape codes
+    //     const ansiRegex = /\033\[48;2;(\d+);(\d+);(\d+)m\033\[38;2;(\d+);(\d+);(\d+)m/g;
+
+    //     // Initialize HTML string
+    //     let htmlString = '';
+
+    //     // Parse ANSI escape codes and generate HTML spans
+    //     let match;
+    //     while ((match = ansiRegex.exec(ansiString)) !== null) {
+    //         const r_bg = match[1];
+    //         const g_bg = match[2];
+    //         const b_bg = match[3];
+    //         const r_fg = match[4];
+    //         const g_fg = match[5];
+    //         const b_fg = match[6];
+
+    //         const text = '▄'; // Use any suitable text representation here
+
+    //         htmlString += `<span style="color: rgb(${r_fg}, ${g_fg}, ${b_fg}); background-color: rgb(${r_bg}, ${g_bg}, ${b_bg});">${text}</span>`;
+    //     }
+
+    //     return htmlString;
+    // }
+
+</script>
 <script lang="js">
     function copyToClipboard(event) {
         event.preventDefault();
@@ -263,61 +370,74 @@
 <script>
     var currentImageIndex = 0; // Track the index of the current image
     var imageList = [
-        "_0431b5dd-a595-42fe-a126-1e6a226059b1.jpeg",
-        "_0193acc3-c1ae-40fa-aa9e-c96f1c802cf0.jpeg",
-        "_053b3c96-8686-4bed-85d4-bdb7f4bc6f5e.jpeg",
-        "_0a045c6e-1cf5-412d-afe4-e628ab14c8f9.jpeg",
-        "_0bb51a83-8a84-4f02-aa57-c6e2ce4b8cf5.jpeg",
-        "_0cabea3b-36d7-44ec-bfe0-1ccbec8f622d.jpeg",
-        "_0cb8cd94-d156-470d-9c72-fc4f28d97415.jpeg",
-        "_130e1540-5619-4a55-a537-06da09cc74ae.jpeg",
-        "_1ac21aa7-5447-4a84-9474-6a4801b71f87.jpeg",
-        "_2e275846-7639-4637-8d42-90a2e98821b2.jpeg",
-        "_3493a588-3efe-4b91-97c2-8dc87c881504.jpeg",
-        "_3699eab2-48f4-4ee4-9632-e5b1ba6b4674.jpeg",
-        "_46101ee8-366f-4d31-b6d7-8b4b68823c0f.jpeg",
-        "_5b9e6d01-c19d-489e-8839-d19682bba61e.jpeg",
-        "_70a63889-475a-411c-a14d-d9d1345af9ae.jpeg",
-        "_748daf2d-d2d4-4151-b65e-a9b1cd1a310e.jpeg",
-        "_76a210d6-7194-488a-8cfd-55fb8773283e.jpeg",
-        "_77382724-a85d-49a4-ac02-856dfd71384b.jpeg",
-        "_7cafe970-5888-48d3-8b6e-12433637992b.jpeg",
-        "_7f2483d1-b776-42df-9044-e3a0cd3df7ac.jpeg",
-        "_7f34128b-f9c7-4381-8fea-15b2de7fe69e.jpeg",
-        "_8198c9d1-0e4a-4bfe-a500-2af06ddbbd27.jpeg",
-        "_822e7db2-6afb-4a09-b795-0f6f0bbe7ea6.jpeg",
-        "_867aae73-676f-4311-a734-50ca5fb7b2a4.jpeg",
-        "_90e3641d-1891-485f-a91c-82a9e2835ff6.jpeg",
-        "_99288d4b-c88f-4339-a756-97781fd40151.jpeg",
-        "_a58b3702-f6ec-47c5-b463-96e7ceeb8e50.jpeg",
-        "_aac26ad4-54c9-46b5-9774-235b2659384e.jpeg",
-        "_ab39670e-941d-4524-8409-373407ad9a6e.jpeg",
-        "_ada8095c-50ce-47c0-8371-d87eee2ab98c.jpeg",
-        "_af8d7362-0f21-4272-b77f-d02218290551.jpeg",
-        "_afd020cd-d8fa-44d6-913e-31f8032961e6.jpeg",
-        "_bae6c5b8-248c-4f98-9217-cebf63c13831.jpeg",
-        "_c1955a72-70c3-4ae4-b863-65668a8b7878.jpeg",
-        "_c6a48fed-f58b-4831-b3c5-756f87019f08.jpeg",
-        "_d33c2bfb-d45a-4bce-a2f0-89bd99dcf17b.jpeg",
-        "_df586d86-b187-4e7c-b82c-4bd0a27b0d80.jpeg",
-        "_e3469569-40f2-4a32-ba6d-a976a7dbf194.jpeg",
-        "_ecaa839f-68b3-48a1-a9b0-293e1ad28794.jpeg",
-        "_f3eff345-c9d7-445b-aa60-64440afa6747.jpeg",];
+        "_0431b5dd-a595-42fe-a126-1e6a226059b1",
+        "_0193acc3-c1ae-40fa-aa9e-c96f1c802cf0",
+        "_053b3c96-8686-4bed-85d4-bdb7f4bc6f5e",
+        "_0a045c6e-1cf5-412d-afe4-e628ab14c8f9",
+        "_0bb51a83-8a84-4f02-aa57-c6e2ce4b8cf5",
+        "_0cabea3b-36d7-44ec-bfe0-1ccbec8f622d",
+        "_0cb8cd94-d156-470d-9c72-fc4f28d97415",
+        "_130e1540-5619-4a55-a537-06da09cc74ae",
+        "_1ac21aa7-5447-4a84-9474-6a4801b71f87",
+        "_2e275846-7639-4637-8d42-90a2e98821b2",
+        "_3493a588-3efe-4b91-97c2-8dc87c881504",
+        "_3699eab2-48f4-4ee4-9632-e5b1ba6b4674",
+        "_46101ee8-366f-4d31-b6d7-8b4b68823c0f",
+        "_5b9e6d01-c19d-489e-8839-d19682bba61e",
+        "_70a63889-475a-411c-a14d-d9d1345af9ae",
+        "_748daf2d-d2d4-4151-b65e-a9b1cd1a310e",
+        "_76a210d6-7194-488a-8cfd-55fb8773283e",
+        "_77382724-a85d-49a4-ac02-856dfd71384b",
+        "_7cafe970-5888-48d3-8b6e-12433637992b",
+        "_7f2483d1-b776-42df-9044-e3a0cd3df7ac",
+        "_7f34128b-f9c7-4381-8fea-15b2de7fe69e",
+        "_8198c9d1-0e4a-4bfe-a500-2af06ddbbd27",
+        "_822e7db2-6afb-4a09-b795-0f6f0bbe7ea6",
+        "_867aae73-676f-4311-a734-50ca5fb7b2a4",
+        "_90e3641d-1891-485f-a91c-82a9e2835ff6",
+        "_99288d4b-c88f-4339-a756-97781fd40151",
+        "_a58b3702-f6ec-47c5-b463-96e7ceeb8e50",
+        "_aac26ad4-54c9-46b5-9774-235b2659384e",
+        "_ab39670e-941d-4524-8409-373407ad9a6e",
+        "_ada8095c-50ce-47c0-8371-d87eee2ab98c",
+        "_af8d7362-0f21-4272-b77f-d02218290551",
+        "_afd020cd-d8fa-44d6-913e-31f8032961e6",
+        "_bae6c5b8-248c-4f98-9217-cebf63c13831",
+        "_c1955a72-70c3-4ae4-b863-65668a8b7878",
+        "_c6a48fed-f58b-4831-b3c5-756f87019f08",
+        "_d33c2bfb-d45a-4bce-a2f0-89bd99dcf17b",
+        "_df586d86-b187-4e7c-b82c-4bd0a27b0d80",
+        "_e3469569-40f2-4a32-ba6d-a976a7dbf194",
+        "_ecaa839f-68b3-48a1-a9b0-293e1ad28794",
+        "_f3eff345-c9d7-445b-aa60-64440afa6747",];
 
-    function cycleGallery(direction) {
+    async function cycleGallery(direction) {
+
         if (direction === 'next') {
             currentImageIndex = (currentImageIndex + 1) % imageList.length;
+            nextImageIndex = [currentImageIndex + 1] % imageList.length;
         } else if (direction === 'prev') {
             currentImageIndex = (currentImageIndex - 1 + imageList.length) % imageList.length;
+            nextImageIndex = (currentImageIndex - 1 + imageList.length) % imageList.length;
         }
 
         var gallery = document.querySelector('.gallery');
-        gallery.style.backgroundImage = 'url("gallery/' + imageList[currentImageIndex] + '")';
+        var imgPreLoad = document.querySelector(".img_pre_load");
+        var ansiView = document.querySelector(".ansi_view");
+        gallery.style.backgroundImage = 'url("gallery/' + imageList[currentImageIndex] + '.jpeg")';
+        imgPreLoad.style.backgroundImage = 'url("gallery/' + imageList[nextImageIndex] + '.jpeg")';
+
+        const ansiFileUrl = "gallery/" + imageList[currentImageIndex] + ".ans";
+
+        const response = await fetch(ansiFileUrl);
+        const ansiText = await response.text();
+        htmlText = ansiToHtml(ansiText);
+        ansiView.innerHTML = htmlText;
     }
 
     function toggleGallery() {
         var gallery = document.querySelector('.gallery');
-        gallery.style.display = (gallery.style.display === 'none') ? 'block' : 'none';
+        gallery.style.display = (gallery.style.display !== 'block') ? 'block' : 'none';
     }
 </script>
 
@@ -391,5 +511,6 @@
     updateContent();
     triggerAnimation();
 </script>
+
 
 </html>
