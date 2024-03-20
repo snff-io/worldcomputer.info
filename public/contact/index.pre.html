@@ -9,8 +9,6 @@
 <body>
   <!--begin_section_style-->
   <style id="style">
-
-    
     /* Global styles */
     body {
       font-family: sans-serif;
@@ -25,14 +23,15 @@
       border-width: 0px;
     }
 
-    a, a:visited{
+    a,
+    a:visited {
       font-size: large;
       color: #50ff5098;
       text-decoration: none;
     }
 
 
-    
+
 
     /* Layout styles */
     .layout_table td {
@@ -41,7 +40,7 @@
     }
 
     .name-style {
-      color: #ede1e5 ;
+      color: #ede1e5;
       font-size: 30px;
 
     }
@@ -69,7 +68,7 @@
     }
 
     .identity_detail {
-        min-height: 36px;
+      min-height: 36px;
     }
 
     .identity_key {
@@ -220,7 +219,8 @@
                 <td colspan="3">
                   <table>
                     <tr style="font-size: larger;">
-                      <td>bucket</td><td>list</td>
+                      <td>bucket</td>
+                      <td>list</td>
                     </tr>
                     <tr>
                       <td>ascension machu picchu</td>
@@ -312,7 +312,7 @@
 
   <!--begin_section_data-->
   <script id="data" lang="js">
-    let template = `<tr class="identity_row">
+    let template = `<tr class="identity_row" onclick="copyToClipboard('{{cbdata}}')">
       <td>
         <table class="identity_detail">
           <tr>
@@ -338,7 +338,7 @@
       document.getElementById("identity_table").innerHTML = '';
 
       ids.forEach(id => {
-        var html = template.replace('{{line1}}', id.line1).replace('{{line2}}', id.line2).replace('{{qrurl}}', id.qrurl);
+        var html = template.replace('{{line1}}', id.line1).replace('{{line2}}', id.line2).replace('{{qrurl}}', id.qrurl).replace('{{cbdata}}', id.line2);
         document.getElementById("identity_table").innerHTML += html;
       });
 
@@ -371,6 +371,31 @@
     window.render();
 
     //sha256_placeholder
+  </script>
+  <script lang="js">
+    function copyToClipboard(data) {
+      event.preventDefault();
+
+      navigator.clipboard.writeText(data);
+      const notice = document.createElement('div');
+      notice.textContent = 'copied to clipboard';
+      notice.style.position = 'fixed';
+      notice.style.top = `${event.clientY}px`;
+      notice.style.left = `${event.clientX}px`;
+      notice.style.opacity = '1';
+      notice.style.transition = 'opacity 1.5s';
+      notice.style.color = "lime"
+      notice.style.fontFamily = 'Courier New';
+      document.body.appendChild(notice);
+
+      setTimeout(() => {
+        notice.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(notice);
+        }, 1500);
+      }, 1500);
+
+    }
   </script>
   <!--end_section_code-->
 </body>
