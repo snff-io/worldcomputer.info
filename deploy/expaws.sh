@@ -1,2 +1,2 @@
-docker save -o twc.tar worldcomputer:latest
+docker save -o worldcomputer.tar worldcomputer:latest
 sftp aws

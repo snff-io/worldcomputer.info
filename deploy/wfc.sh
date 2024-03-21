@@ -1,0 +1,1 @@
+docker run -it -v wwiv:/srv/wwiv -p 3867:2323 --name wfc -e "WWIV_MODE=wfc" dockerimagewwiv:latest

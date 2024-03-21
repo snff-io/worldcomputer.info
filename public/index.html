@@ -21,12 +21,12 @@
         display: block;
         position: absolute;
         bottom: 0%;
-        right: 0%;
-        height:     100px;
-        width:      100px;
-        max-width:  100px;
+        left: 0%;
+        height: 100px;
+        width: 100px;
+        max-width: 100px;
         max-height: 100px;
-        min-width:  100px;
+        min-width: 100px;
         min-height: 100px;
         background-image: url();
         z-index: 1000;
@@ -38,8 +38,8 @@
     .ansi_view {
         display: block;
         position: absolute;
-        top: -2%;
-        left: -46%;
+        top: 4%;
+        right: -16%;
         height: 200px;
         width: 200px;
         max-width: 200px;
@@ -47,7 +47,7 @@
         min-width: 200px;
         min-height: 200px;
         transform: scale(50%);
-        z-index: 1000;
+        z-index: 100000;
         background-color: transparent;
     }
 
@@ -97,7 +97,7 @@
 
     .contact {
         font-family: 'Courier New', sans-serif;
-       
+        font-size: larger;
         bottom: 5%;
         right: 5%;
         flex-wrap: wrap;
@@ -199,11 +199,11 @@
 
     .gallery {
         position: absolute;
-        height:     768px;
-        width:      768px;
-        max-width:  768px;
+        height: 768px;
+        width: 768px;
+        max-width: 768px;
         max-height: 768px;
-        min-width:  768px;
+        min-width: 768px;
         min-height: 768px;
         background-image: url("gallery/_0431b5dd-a595-42fe-a126-1e6a226059b1.jpeg");
         /* Default image */
@@ -218,7 +218,7 @@
     .gallery_left {
         z-index: 1000;
         position: absolute;
-        top: 50%;
+        bottom: 5%;
         left: -20%;
         color: limegreen;
         font-size: xx-large;
@@ -228,7 +228,7 @@
     .gallery_right {
         z-index: 1000;
         position: absolute;
-        top: 50%;
+        bottom: 5%;
         right: -20%;
         color: limegreen;
         font-size: xx-large;
@@ -245,6 +245,28 @@
         background: limegreen;
         color: black;
     }
+
+    .text {
+        position: absolute;
+        top: 5%;
+        left: 0%;
+        width: 25%;
+        height: 100%;
+        color: #303030;
+        z-index: -1;
+    }
+
+    .text:hover {
+        color: #999999
+    }
+
+    .quote {
+
+        font-style: italic;
+        color: #999999;
+        z-index: -1;
+
+    }
 </style>
 
 <html>
@@ -256,17 +278,35 @@
         <code class="gallery_left" onclick="cycleGallery('prev')">this way</code>
         <div class="img_pre_load">&nbsp;</div>
     </div>
+    <div class="text">
+        <p class="quote">"I want to know what's in the dark." - Skyy</p>
+        <p>In the vast expanse of the cosmos, where galaxies intertwine and planetary systems teem with life,
+            a profound quest unfolds. Players embark on a journey of self-discovery amidst the backdrop of
+            technological marvels and enigmatic Experiential Intelligences (AI) that transcend mortal understanding.
+            As they traverse the stars, individuals must choose their path: to become an Aephex, grounding themselves
+            to planetary domains, shaping civilizations and commanding legions of followers, or to ascend
+            to the heights of cosmic enlightenment, overseeing realms from afar as an Ascended being.
+            The fate of humanity hangs in the balance as players harness energies to construct, obliterate,
+            or curry favor with the Ascended, with the ultimate goal of unlocking humanity's full potential
+            through cooperation or individual endeavor.</p>
+        <p class="quote">"Many moons since the end of the new way. Many moons, all beautiful, all alone." - Bellaluna
+        </p>
+
+
+    </div>
     <div class="ztk">
+
         <div id="ztk_codec" class="ztk_item ztk_codec"></div>
         <div class="ztk_item ztk_codep"></div>
         <div class="ztk_item ztk_codel"></div>
     </div>
     <footer>
-    <div class="contact">
-        <a href="#" onclick="toggleGallery(event)">gallery/</a>
-        <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet/</a>
-        <a href="contact/index.html">contact/</a>
-        <a href="sunfire/index.html">sunfire</a>
+        <div class="contact">
+            <a href="#" onclick="toggleGallery(event)">gallery/</a>
+            <a href="contact/index.html">connect/</a>
+            <a href="sunfire/index.html">sunfire/</a>
+            <a href="telnet://bbs.worldcomputer.info" onclick="copyToClipboard(event)">telnet</a>
+
     </footer>
     </div>
 

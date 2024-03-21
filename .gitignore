@@ -162,3 +162,4 @@ node_modules
 twc.tar
 privkey.pem
 certs/worldcomputer.info/privkey.pem
+*.tar
